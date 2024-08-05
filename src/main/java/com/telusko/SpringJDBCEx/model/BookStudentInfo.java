@@ -1,5 +1,8 @@
 package com.telusko.SpringJDBCEx.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class BookStudentInfo {
     private int rollNum;
     private String name;

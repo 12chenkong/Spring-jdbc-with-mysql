@@ -21,9 +21,10 @@ public class StudentService {
     public void addStudent(Student student){
       studentRepo.save(student);
    }
-
+   public List<Student> getAllStudent(){
+      return   studentRepo.showAllStudent();
+   }
     public List<BookStudentInfo> getStudents() {
-
         return studentRepo.findAll();
     }
 }

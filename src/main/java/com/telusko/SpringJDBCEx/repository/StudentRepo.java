@@ -1,5 +1,6 @@
 package com.telusko.SpringJDBCEx.repository;
 
+import com.telusko.SpringJDBCEx.model.Book;
 import com.telusko.SpringJDBCEx.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,13 +25,13 @@ public class StudentRepo {
     public void setJdbc(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
     }
-
+    //Insert student info to student table in the DB
     public  void save (Student student){
-      String sql="INSERT INTO student(rollNum,name,mark)  VALUES(?,?,?)";
-      int row= jdbc.update(sql,student.getNollNum(),student.getName(),student.getMark());
-        System.out.println(row +"affected");
+      String sql="INSERT INTO student  VALUES(?,?,?,?)";
+      int row= jdbc.update(sql,student.getrollNum(),student.getName(),student.getMark(),student.getBook_id_fk());
+        System.out.println(row +" affected");
     }
-
+  // this function display which student get which book
     public List<BookStudentInfo> findAll() {
      String sql="SELECT S.rollNum, S.name, B.author, B.book_name " +
              "FROM book AS B " +
@@ -48,5 +49,21 @@ public class StudentRepo {
         };
 
         return jdbc.query(sql,rowMapper) ;
+    }
+
+    public List<Student> showAllStudent(){
+        String sql="SELECT rollNum,name,mark FROM student";
+        RowMapper<Student> rowMapper=new RowMapper<Student>() {
+            @Override
+            public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Student student=new Student();
+                student.setrollNum(rs.getInt("rollNum"));
+                student.setName(rs.getString("name"));
+                student.setMark(rs.getInt("mark"));
+                return student;
+            }
+        };
+         return jdbc.query(sql,rowMapper );
+
     }
 }
