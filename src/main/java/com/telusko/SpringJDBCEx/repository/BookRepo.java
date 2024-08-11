@@ -24,6 +24,7 @@ public class BookRepo {
             @Override
             public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Book book=new Book();
+                book.setBook_id(rs.getInt("book_id"));
                 book.setBook_name(rs.getString("book_name"));
                 book.setAuthor(rs.getString("author"));
                 return book;

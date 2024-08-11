@@ -24,7 +24,12 @@ public class StudentService {
    public List<Student> getAllStudent(){
       return   studentRepo.showAllStudent();
    }
+//   will move this function to another file soon
     public List<BookStudentInfo> getStudents() {
         return studentRepo.findAll();
+    }
+    //search studen info by the given id
+    public Student searchStudentById(int id){
+        return studentRepo.getStudentById(id);
     }
 }

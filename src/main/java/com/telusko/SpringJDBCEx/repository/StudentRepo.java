@@ -3,6 +3,7 @@ package com.telusko.SpringJDBCEx.repository;
 import com.telusko.SpringJDBCEx.model.Book;
 import com.telusko.SpringJDBCEx.model.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,8 @@ public class StudentRepo {
     public void setJdbc(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
     }
+
+
     //Insert student info to student table in the DB
     public  void save (Student student){
       String sql="INSERT INTO student  VALUES(?,?,?,?)";
@@ -50,7 +53,29 @@ public class StudentRepo {
 
         return jdbc.query(sql,rowMapper) ;
     }
+    public Student getStudentById(int id){
+        String sql="SELECT *FROM student WHERE rollNum=?";
+        RowMapper<Student> rowMapper=new RowMapper<Student>() {
+            @Override
+            public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Student student=new Student();
+                student.setrollNum(rs.getInt("mark"));
+                student.setName(rs.getString("name"));
+                student.setMark(rs.getInt("mark"));
 
+                return student;
+            }
+        };
+        try{
+            return jdbc.queryForObject(sql,new Object[]{id},rowMapper);
+        }catch (EmptyResultDataAccessException e)
+        {
+
+        }
+        return null;
+
+    }
+//    fetc student data form table
     public List<Student> showAllStudent(){
         String sql="SELECT rollNum,name,mark FROM student";
         RowMapper<Student> rowMapper=new RowMapper<Student>() {
