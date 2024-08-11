@@ -16,6 +16,8 @@ import java.util.Scanner;
 @SpringBootApplication
 public class SpringJdbcExApplication {
 
+
+
 	public static void main(String[] args) {
 		Scanner scanner=new Scanner(System.in);
 	ApplicationContext context= SpringApplication.run(SpringJdbcExApplication.class, args);
